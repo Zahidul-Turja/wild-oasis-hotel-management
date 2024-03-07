@@ -7,6 +7,7 @@ import { subtractDates } from "../utils/helpers";
 import { bookings } from "./data-bookings";
 import { cabins } from "./data-cabins";
 import { guests } from "./data-guests";
+import { useDarkMode } from "../context/DarkModeContext";
 
 // const originalSettings = {
 //   minBookingLength: 3,
@@ -14,6 +15,28 @@ import { guests } from "./data-guests";
 //   maxGuestsPerBooking: 10,
 //   breakfastPrice: 15,
 // };
+
+const styleDarkMode = {
+  marginTop: "auto",
+  backgroundColor: "#111827",
+  padding: "20px 10px",
+  borderRadius: "5px",
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
+};
+
+const styleLightMode = {
+  marginTop: "auto",
+  backgroundColor: "#e0e7ff",
+  padding: "20px 10px",
+  borderRadius: "5px",
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
+};
 
 async function deleteGuests() {
   const { error } = await supabase.from("guests").delete().gt("id", 0);
@@ -101,6 +124,7 @@ async function createBookings() {
 }
 
 function Uploader() {
+  const { isDarkMode } = useDarkMode();
   const [isLoading, setIsLoading] = useState(false);
 
   async function uploadAll() {
@@ -126,18 +150,7 @@ function Uploader() {
   }
 
   return (
-    <div
-      style={{
-        marginTop: "auto",
-        backgroundColor: "#e0e7ff",
-        padding: "8px",
-        borderRadius: "5px",
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-      }}
-    >
+    <div style={isDarkMode ? styleDarkMode : styleLightMode}>
       <h3>SAMPLE DATA</h3>
 
       <Button onClick={uploadAll} disabled={isLoading}>
